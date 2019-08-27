@@ -5,5 +5,16 @@
   <%= @survey.title %>
 </p>
 
+<p>
+  <strong>Question:</strong>
+  <% @questions.each do |question| %>
+    <li><%= question.body %></li>
+    <% question.answers.each do |answer| %>
+      <p><%= answer.body %></p>
+    <% end %>
+  <% end %>
+
+</p>
+
 <%= link_to 'Edit', edit_survey_path(@survey) %> |
 <%= link_to 'Back', surveys_path %>

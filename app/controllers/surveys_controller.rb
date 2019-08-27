@@ -10,6 +10,8 @@ class SurveysController < ApplicationController
   # GET /surveys/1
   # GET /surveys/1.json
   def show
+    survey = Survey.find(params[:id])
+    @questions = survey.questions
   end
 
   # GET /surveys/new
