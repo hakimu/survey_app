@@ -14,6 +14,5 @@ RSpec.describe Survey, type: :model do
 
   it '' do
     survey = Survey.new(title: 'test')
-    
   end
 end
