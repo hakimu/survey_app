@@ -11,4 +11,15 @@ RSpec.describe Survey, type: :model do
     survey.valid?
     expect(survey.errors[:title]).to include('can\'t be blank')
   end
+
+  it 'is able to have many questions' do
+    first_question = create(:question)
+    second_question = create(:question, body: 'What country do you live in?')
+    third_question = create(:question, body: 'How old are you?')
+    survey = create(:survey)
+    survey.questions << first_question
+    survey.questions << second_question
+    survey.questions << third_question
+    expect(survey.questions.count).to eq(3)
+  end
 end
