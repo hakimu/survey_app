@@ -6,4 +6,3 @@ RSpec.describe Answer, type: :model do
     expect(answer).to be_valid
   end
 end
-
