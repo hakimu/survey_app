@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'hirb'
 
+gem 'pry'
+
 gem 'rack', '>= 2.0.6'
 
 gem 'newrelic_rpm'
