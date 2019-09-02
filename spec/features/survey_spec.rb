@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.feature 'Surveys', type: :feature do
+  let(:user) { create(:user) }
+  let(:survey) { create(:survey) }
+  let(:question) do
+    create(:question, body: 'What is today?', survey_id: survey.id)
+  end
+  let(:day_question) do
+    create(:question, body: 'What is today?', survey_id: survey.id)
+  end
   it 'a survey has questions' do
     color_question = create(:question)
     food_question = create(:question, body: 'What is your favorite food?')
@@ -10,11 +18,7 @@ RSpec.feature 'Surveys', type: :feature do
     end
     expect(color_question.answers.count).to eq(4)
   end
-  it 'full survey...single quesiton' do
-    user = create(:user)
-    survey = create(:survey)
-    question = create(:question, survey_id: survey.id)
-    day_question = create(:question, body: 'What is today?', survey_id: survey.id)
+  it 'a single user with two questions' do
     survey.questions << question
     survey.questions << day_question
     blue_answer = create(:answer, question_id: question.id)
