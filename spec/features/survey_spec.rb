@@ -4,7 +4,7 @@ RSpec.feature 'Surveys', type: :feature do
   let(:user) { create(:user) }
   let(:survey) { create(:survey) }
   let(:question) do
-    create(:question, body: 'What is today?', survey_id: survey.id)
+    create(:question, survey_id: survey.id)
   end
   let(:day_question) do
     create(:question, body: 'What is today?', survey_id: survey.id)
