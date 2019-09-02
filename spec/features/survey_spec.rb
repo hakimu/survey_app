@@ -10,5 +10,21 @@ RSpec.feature 'Surveys', type: :feature do
     end
     expect(color_question.answers.count).to eq(4)
   end
+  it 'full survey...single quesiton' do
+    user = create(:user)
+    survey = create(:survey)
+    question = create(:question, survey_id: survey.id)
+    day_question = create(:question, body: 'What is today?', survey_id: survey.id)
+    survey.questions << question
+    survey.questions << day_question
+    blue_answer = create(:answer, question_id: question.id)
+    create(:answer, body: 'pink', question_id: question.id)
+    yes_answer = create(:answer, body: 'Sunday', question_id: day_question.id)
+    create(:answer, body: 'Monday', question_id: day_question.id)
+    create(:response, user_id: user.id, answer_id: blue_answer.id)
+    create(:response, user_id: user.id, answer_id: yes_answer.id)
+    expect(user.responses.count).to eq(2)
+    expect(user.responses.first.answer.body).to eq('blue')
+    expect(user.responses.last.answer.body).to eq('Sunday')
+  end
 end
-
