@@ -1,6 +1,7 @@
 class SurveysController < ApplicationController
   before_action :authorize
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
+  before_action :admin, only: [:new, :edit, :update, :destroy, :create]
 
   # GET /surveys
   # GET /surveys.json
@@ -66,12 +67,12 @@ class SurveysController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_survey
-      @survey = Survey.find(params[:id])
-    end
+  def set_survey
+    @survey = Survey.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def survey_params
-      params.require(:survey).permit(:title)
-    end
+  def survey_params
+    params.require(:survey).permit(:title)
+  end
 end

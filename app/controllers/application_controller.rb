@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
   def authorize
     redirect_to '/login' unless current_user
   end
+
+  def admin
+    redirect_to '/surveys', notice: 'Admin only' unless current_user.admin
+  end
 end
