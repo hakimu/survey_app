@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
-    redirect_to '/surveys', notice: 'Admin only' unless current_user.admin
+    redirect_to surveys_path, notice: 'Admin only' unless current_user.admin
   end
 end
