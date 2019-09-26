@@ -10,7 +10,10 @@ class ApplicationController < ActionController::Base
     redirect_to '/login' unless current_user
   end
 
-  def admin
-    redirect_to surveys_path, notice: 'Admin only' unless current_user.admin
-  end
+  # def admin
+  #   raise UnauthorizedRequest unless current_user.admin
+  #   # redirect_to surveys_path, notice: 'Admin only' unless current_user.admin
+  # rescue UnauthorizedRequest
+  #   render status: 401
+  # end
 end

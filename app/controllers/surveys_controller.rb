@@ -18,6 +18,7 @@ class SurveysController < ApplicationController
 
   # GET /surveys/new
   def new
+    # check_user_admin
     @survey = Survey.new
   end
 
@@ -74,5 +75,11 @@ class SurveysController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
   def survey_params
     params.require(:survey).permit(:title)
+  end
+
+  def admin
+    raise UnauthorizedRequest unless current_user.admin
+  rescue UnauthorizedRequest
+    render status: 401
   end
 end
