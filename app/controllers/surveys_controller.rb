@@ -3,6 +3,10 @@ class SurveysController < ApplicationController
   before_action :set_survey, only: [:show, :edit, :update, :destroy]
   before_action :admin, only: [:new, :edit, :update, :destroy, :create]
 
+  rescue_from UnauthorizedRequest do |exception|
+    render json: { error: exception}, status: 401
+  end
+
   # GET /surveys
   # GET /surveys.json
   def index
@@ -75,11 +79,5 @@ class SurveysController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
   def survey_params
     params.require(:survey).permit(:title)
-  end
-
-  def admin
-    raise UnauthorizedRequest unless current_user.admin
-  rescue UnauthorizedRequest
-    render status: 401
   end
 end

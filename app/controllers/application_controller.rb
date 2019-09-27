@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  private
+
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
@@ -10,10 +12,7 @@ class ApplicationController < ActionController::Base
     redirect_to '/login' unless current_user
   end
 
-  # def admin
-  #   raise UnauthorizedRequest unless current_user.admin
-  #   # redirect_to surveys_path, notice: 'Admin only' unless current_user.admin
-  # rescue UnauthorizedRequest
-  #   render status: 401
-  # end
+  def admin
+    raise UnauthorizedRequest unless current_user.admin
+  end
 end

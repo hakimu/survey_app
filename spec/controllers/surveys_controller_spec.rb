@@ -39,4 +39,16 @@ RSpec.describe SurveysController, type: :controller do
       end
     end
   end
+  describe '#create' do
+    context 'when the user is not an admin' do
+      it 'cannot create a survey ' do
+        user = create(:user)
+        session[:user_id] = user.id
+        survey = build(:survey)
+        survey.save
+        get :create, params: { id: survey.id }
+        expect(response.code).to eq('401')
+      end
+    end
+  end
 end
