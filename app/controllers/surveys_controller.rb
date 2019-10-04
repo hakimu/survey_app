@@ -1,10 +1,10 @@
 class SurveysController < ApplicationController
   before_action :authorize
-  before_action :set_survey, only: [:show, :edit, :update, :destroy]
-  before_action :admin, only: [:new, :edit, :update, :destroy, :create]
+  before_action :set_survey, only: %i[show edit update destroy]
+  before_action :admin, only: %i[new edit update destroy create]
 
   rescue_from UnauthorizedRequest do |exception|
-    render json: { error: exception}, status: 401
+    render json: { error: exception }, status: 401
   end
 
   # GET /surveys
@@ -50,7 +50,7 @@ class SurveysController < ApplicationController
   # PATCH/PUT /surveys/1.json
   def update
     respond_to do |format|
-      if @survey.update(survey_params)
+      if @survey.update_attributes(survey_params)
         format.html { redirect_to @survey, notice: 'Survey was successfully updated.' }
         format.json { render :show, status: :ok, location: @survey }
       else
@@ -71,13 +71,13 @@ class SurveysController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share common setup or constraints between actions.
   def set_survey
     @survey = Survey.find(params[:id])
   end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust params from the internet, only allow the white list through.
   def survey_params
-    params.permit(:survey).permit(:title)
+    params.require(:survey).permit(:title)
   end
 end

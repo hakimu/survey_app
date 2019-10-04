@@ -8,14 +8,14 @@ RSpec.describe SurveysController, type: :controller do
       it 'cannot create a survey' do
         non_admin_user_with_session
         get :new
-        expect(response.code).to eq('401')
+        expect(response).to have_http_status(401)
       end
     end
     context 'when the user is an admin' do
       it 'is able to create a new survey' do
         admin_user_with_session
         get :new
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(200)
       end
     end
   end
@@ -24,14 +24,14 @@ RSpec.describe SurveysController, type: :controller do
       it 'cannot edit a survey' do
         non_admin_user_with_session
         get :edit, params: { id: created_survey.id }
-        expect(response.code).to eq('401')
+        expect(response).to have_http_status(401)
       end
     end
     context 'when the user is an admin' do
       it 'can edit a survey' do
         admin_user_with_session
         get :edit, params: { id: created_survey.id }
-        expect(response.code).to eq('200')
+        expect(response).to have_http_status(200)
       end
     end
   end
@@ -40,16 +40,20 @@ RSpec.describe SurveysController, type: :controller do
       it 'cannot create a survey ' do
         non_admin_user_with_session
         new_survey.save
-        get :create
-        expect(response.code).to eq('401')
+        post :create
+        expect(response).to have_http_status(401)
       end
     end
     context 'when the user is an admin' do
       it 'can create a survey' do
-        admin_user_with_session
-        new_survey.save
-        get :create
-        expect(response.code).to eq('200')
+        # admin_user_with_session
+        # new_survey.save
+        # test_survey = build(:survey)
+        attr = { title: 'new_survey' }
+        post(:create, params: { survey: attr })
+        test_survey = build(:survey, attr)
+        expect(test_survey.title).to eq('new_survey')
+        expect(response).to have_http_status(302)
       end
     end
   end
@@ -59,15 +63,30 @@ RSpec.describe SurveysController, type: :controller do
         non_admin_user_with_session
         get :destroy, params: { id: created_survey.id }
         created_survey.destroy
-        expect(response.code).to eq('401')
+        expect(response).to have_http_status(401)
       end
     end
     context 'when the user is an admin' do
       it 'can destroy a survey' do
         admin_user_with_session
+        # get :destroy, params: { id: created_survey.id }
         get :destroy, params: { id: created_survey.id }
         created_survey.destroy
-        expect(response.code).to eq('302')
+        expect(response).to have_http_status(302)
+      end
+    end
+  end
+  describe '#update' do
+    context 'when the user is not an admin' do
+      it 'cannot update a survey' do
+        non_admin_user_with_session
+      end
+    end
+    context 'when the user is an admin' do
+      it 'can update a survey' do
+        admin_user_with_session
+        put(:update, params: { id: created_survey.id, survey: { title: 'new_title' }})
+        expect(created_survey.reload.title).to eq('new_title')
       end
     end
   end
