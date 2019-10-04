@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :response do
-    user { nil }
-    answer { nil }
+    user
+    answer
   end
 end
