@@ -31,4 +31,17 @@ RSpec.feature 'Surveys', type: :feature do
     expect(user.responses.first.answer.body).to eq('blue')
     expect(user.responses.last.answer.body).to eq('Sunday')
   end
+  it 'calculates the avg age of Users based on Response to a Question' do
+    color_question = create(:question)
+    old_user = create(:user, username: 'old', password: 'password', age: 99, education: 'college', gender: 'female')
+    young_user = create(:user, username: 'young', password: 'password', age: 18, education: 'high school', gender: 'non-binary')
+    color_answers = [create(:answer, body: 'blue'), create(:answer, body: 'yellow'), create(:answer, body: 'orange'), create(:answer, body: 'green')]
+    color_answers.each do |answer|
+      color_question.answers << answer
+    end
+    create(:response, user_id: user.id, answer_id: color_answers.first.id)
+    create(:response, user_id: old_user.id, answer_id: color_answers.first.id)
+    create(:response, user_id: young_user.id, answer_id: color_answers.first.id)
+    expect(Response.where(answer_id: 1).joins(:user).average(:age).to_i).to eq(52)
+  end
 end
