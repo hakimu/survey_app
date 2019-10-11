@@ -23,3 +23,5 @@ config/newrelic.yml
 /yarn-error.log
 
 .byebug_history
+
+.python-version
