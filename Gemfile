@@ -41,6 +41,7 @@ gem 'newrelic_rpm'
 
 gem 'loofah','>= 2.2.3'
 
+gem "rubyzip", ">= 1.3.0"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
