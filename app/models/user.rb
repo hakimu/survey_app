@@ -14,4 +14,7 @@ class User < ApplicationRecord
     in: GENDER,
     message: '%{value} is not a valid gender'
   }
+
+  scope :senior, -> { where('age > 55') }
+  scope :teenager, -> { where('age > 12 AND age < 20') }
 end
